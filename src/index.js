@@ -68,6 +68,7 @@ class Square extends React.Component {
           }],
           stepNumber: 0,
           x: true,
+          lastClicked: null,
         }
     }
 
@@ -80,10 +81,10 @@ class Square extends React.Component {
       return; // do nothing if a winner is found or if square already has symbol
     }
     squares[i] = this.state.x ? 'X' : 'O'; // ternary operator
-    //console.log(history)
-    //console.log(this.state.x)
     this.setState({
-      history: history.concat([{squares: squares,}]), //history is a array of dictionatries. concat doesnt mutate original array
+      history: history.concat([{squares: squares,
+                                lastClicked: i,
+                              }]), //history is a array of dictionatries. concat doesnt mutate original array
       stepNumber: history.length,
       x: !this.state.x,
     });
@@ -103,10 +104,12 @@ class Square extends React.Component {
       const winner = calculateWinner(current.squares);
       // step is the object (squares) and move is in the index
       const moves = history.map((step, move) => {
+        // tile poisiton (i, j)
+        const pos = [Math.floor(step.lastClicked/3), step.lastClicked % 3]
         // If no moves go to game start
-        const desc = move ? 'Go to move #' + move : 'Go to game start';
-        console.log("STEP: " + step.squares)
-        console.log("MOVE: " + move)
+        const desc = move ? `Go to move #${move} (${pos})`: 'Go to game start';
+        // console.log("STEP: " + step.squares)
+        // console.log("MOVE: " + move)
         // all list elements in react need a key
         return (
           <li key={move}>
