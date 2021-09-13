@@ -5,8 +5,13 @@ body {
   
   ol, ul {
     padding-left: 30px;
+    list-style-type: none;
   }
   
+  li {
+    padding-bottom: 5px;
+  }
+
   .board-row:after {
     clear: both;
     content: "";
