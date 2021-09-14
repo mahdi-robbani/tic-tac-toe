@@ -39,22 +39,21 @@ class Square extends React.Component {
     render() {
       const numRows = 3;
       const numCols = 3;
-      // create a map of all entry in a single row
-      const cols = Array(numCols).fill(null).map((a, i) => {
-        return(
-          <React.Fragment>
-            {this.renderSquare(i)}
-          </React.Fragment>
-        );
-      })
-      // create a map of all rows on the board
-      const rows = Array(numRows).fill(null).map((a, i) => {
-        return(
-          <div className="board-row" key={i}>
-            {cols}
-          </div>
-        );
-      })
+      let rows = [];
+
+      for (let i = 0; i < numRows; i++){
+        // create div with rows
+        let cols = [];
+        for (let j = 0; j < numCols; j++){
+          cols.push(<React.Fragment>
+                      {this.renderSquare(3*i + j)}
+                    </React.Fragment>)
+        }
+        // add each row to list of rows
+        rows.push(<div className="board-row">
+                    {cols}
+                  </div>)
+      } 
 
       return (
         <div>
@@ -75,6 +74,7 @@ class Square extends React.Component {
           stepNumber: 0,
           x: true,
           lastClicked: null,
+          //ascending: true,
         }
     }
 
@@ -93,6 +93,7 @@ class Square extends React.Component {
                               }]), //history is a array of dictionatries. concat doesnt mutate original array
       stepNumber: history.length,
       x: !this.state.x,
+      //ascending: this.state.ascending,
     });
   }
 
@@ -115,8 +116,6 @@ class Square extends React.Component {
         const pos = [Math.floor(step.lastClicked/3), step.lastClicked % 3]
         // If no moves go to game start
         const desc = move ? `Go to move #${move} (${pos})`: 'Go to game start';
-        // console.log("STEP: " + step.squares)
-        // console.log("MOVE: " + move)
         // all list elements in react need a key
         return (
           <li key={move}>
