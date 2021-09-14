@@ -37,27 +37,33 @@ class Square extends React.Component {
     }
   
     render() {
+      const numRows = 3;
+      const numCols = 3;
+      // create a map of all entry in a single row
+      const cols = Array(numCols).fill(null).map((a, i) => {
+        return(
+          <React.Fragment>
+            {this.renderSquare(i)}
+          </React.Fragment>
+        );
+      })
+      // create a map of all rows on the board
+      const rows = Array(numRows).fill(null).map((a, i) => {
+        return(
+          <div className="board-row" key={i}>
+            {cols}
+          </div>
+        );
+      })
+
       return (
         <div>
-          <div className="board-row">
-            {this.renderSquare(0)}
-            {this.renderSquare(1)}
-            {this.renderSquare(2)}
-          </div>
-          <div className="board-row">
-            {this.renderSquare(3)}
-            {this.renderSquare(4)}
-            {this.renderSquare(5)}
-          </div>
-          <div className="board-row">
-            {this.renderSquare(6)}
-            {this.renderSquare(7)}
-            {this.renderSquare(8)}
-          </div>
+          {rows}
         </div>
       );
     }
   }
+
   
   class Game extends React.Component {
     constructor(props) {
@@ -100,6 +106,7 @@ class Square extends React.Component {
 
     render() {
       const history = this.state.history;
+      console.log("HISTORY: " + history)
       const current = history[this.state.stepNumber]; // Only render the Nth step
       const winner = calculateWinner(current.squares);
       // step is the object (squares) and move is in the index
@@ -143,8 +150,8 @@ class Square extends React.Component {
   }
 
 // TO-DO:
-// 1. Display the location for each move in the format (col, row) in the move history list.
-// 2. Bold the currently selected item in the move list.
+// 1. Display the location for each move in the format (col, row) in the move history list. (DONE)
+// 2. Bold the currently selected item in the move list. (NOT SURE)
 // 3. Rewrite Board to use two loops to make the squares instead of hardcoding them.
 // 4. Add a toggle button that lets you sort the moves in either ascending or descending order.
 // 5. When someone wins, highlight the three squares that caused the win.
