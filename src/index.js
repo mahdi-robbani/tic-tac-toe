@@ -18,22 +18,24 @@ class Square extends React.Component {
     render() {
       return (
         <button 
-            className="square" 
+            className={this.props.className}
             onClick={() => this.props.onClick() }
+            winner={this.props.winner}
         >
           {this.props.value} 
         </button>
-      ); //why?
+      );
     }
   }
 
   class Board extends React.Component {
 
-    renderSquare(i) {
-      return (<Square 
-                value={this.props.squares[i]} 
+    renderSquare(i, className) {
+      return (<Square
+                className={className}
+                value={this.props.squares[i]}
                 onClick={() => this.props.onClick(i)}
-                />); //why dont I have to do this.props.history.squares
+                />);
     }
   
     render() {
@@ -45,8 +47,17 @@ class Square extends React.Component {
         // create div with rows
         let cols = [];
         for (let j = 0; j < numCols; j++){
-          cols.push(<React.Fragment key={(3*i + j)}>
-                      {this.renderSquare(3*i + j)}
+          let className = "square"
+          const nodeNum = 3*i + j;
+          // check if winning tiles exist and if they include our node
+          // then change the class name to square win
+          if (this.props.winnerTiles){
+            if (this.props.winnerTiles.includes(nodeNum)){
+              className += " win"
+            }
+          }
+          cols.push(<React.Fragment key={(nodeNum)}>
+                      {this.renderSquare(nodeNum, className)}
                     </React.Fragment>)
         }
         // add each row to list of rows
@@ -84,8 +95,7 @@ class Square extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice()
-    console.log(current)
-    if (calculateWinner(squares) || squares[i]){
+    if (calculateWinnerTiles(squares) || squares[i]){
       return; // do nothing if a winner is found or if square already has symbol
     }
     squares[i] = this.state.x ? 'X' : 'O'; // ternary operator
@@ -117,7 +127,10 @@ class Square extends React.Component {
     render() {
       let history = this.state.history.slice();
       const current = history[this.state.stepNumber]; // Only render the Nth step
-      const winner = calculateWinner(current.squares);
+      // Get tile combo that determines winner
+      const winnerTiles = calculateWinnerTiles(current.squares);
+      // Get which symbol won
+      const winner = winnerTiles ? current.squares[winnerTiles[0]] : null
       // reverse history to display the reserve sorted buttons
       if (!this.state.ascending){
         history = history.reverse()
@@ -147,6 +160,7 @@ class Square extends React.Component {
           <div className="game-board">
             <Board 
               squares={current.squares}
+              winnerTiles={winnerTiles}
               onClick={(i) => this.handleClick(i)}
             />
           </div>
@@ -184,7 +198,7 @@ class Square extends React.Component {
     document.getElementById('root')
   );
   
-  function calculateWinner(squares) {
+  function calculateWinnerTiles(squares) {
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -198,7 +212,8 @@ class Square extends React.Component {
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
+        //console.log([a, b, c])
+        return [a, b, c];
       }
     }
     return null;

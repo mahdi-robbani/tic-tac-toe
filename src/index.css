@@ -36,6 +36,10 @@ body {
     text-align: center;
     width: 34px;
   }
+
+  .square.win {
+    border: 3px solid rgb(21, 138, 56);
+  }
   
   .square:focus {
     outline: none;
