@@ -45,12 +45,12 @@ class Square extends React.Component {
         // create div with rows
         let cols = [];
         for (let j = 0; j < numCols; j++){
-          cols.push(<React.Fragment>
+          cols.push(<React.Fragment key={(3*i + j)}>
                       {this.renderSquare(3*i + j)}
                     </React.Fragment>)
         }
         // add each row to list of rows
-        rows.push(<div className="board-row">
+        rows.push(<div className="board-row" key={i}>
                     {cols}
                   </div>)
       } 
@@ -70,11 +70,12 @@ class Square extends React.Component {
         this.state = {
           history: [{
             squares: Array(9).fill(null),
+            lastClicked: null,
+            move: 0,
           }],
           stepNumber: 0,
           x: true,
-          lastClicked: null,
-          //ascending: true,
+          ascending: true,
         }
     }
 
@@ -83,6 +84,7 @@ class Square extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice()
+    console.log(current)
     if (calculateWinner(squares) || squares[i]){
       return; // do nothing if a winner is found or if square already has symbol
     }
@@ -90,10 +92,11 @@ class Square extends React.Component {
     this.setState({
       history: history.concat([{squares: squares,
                                 lastClicked: i,
+                                move: history.length,
                               }]), //history is a array of dictionatries. concat doesnt mutate original array
       stepNumber: history.length,
       x: !this.state.x,
-      //ascending: this.state.ascending,
+      ascending: this.state.ascending,
     });
   }
 
@@ -105,21 +108,29 @@ class Square extends React.Component {
       });
     }
 
+    sortMoves(){
+      this.setState({
+        ascending: !this.state.ascending,
+      })
+    }
+
     render() {
-      const history = this.state.history;
-      console.log("HISTORY: " + history)
+      let history = this.state.history.slice();
       const current = history[this.state.stepNumber]; // Only render the Nth step
       const winner = calculateWinner(current.squares);
-      // step is the object (squares) and move is in the index
-      const moves = history.map((step, move) => {
+      // reverse history to display the reserve sorted buttons
+      if (!this.state.ascending){
+        history = history.reverse()
+      }
+      let moves = history.map((step) => {
         // tile poisiton (i, j)
         const pos = [Math.floor(step.lastClicked/3), step.lastClicked % 3]
         // If no moves go to game start
-        const desc = move ? `Go to move #${move} (${pos})`: 'Go to game start';
+        const desc = step.move ? `Go to move #${step.move} (${pos})`: 'Go to game start';
         // all list elements in react need a key
         return (
-          <li key={move}>
-            <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <li key={step.move}>
+            <button onClick={() => this.jumpTo(step.move)}>{desc}</button>
           </li>
         );
       });
@@ -141,6 +152,9 @@ class Square extends React.Component {
           </div>
           <div className="game-info">
             <div>{ status }</div>
+            <div>
+            <button onClick={() => this.sortMoves()}>Sort moves</button>
+            </div>
             <ul>{ moves }</ul>
           </div>
         </div>
