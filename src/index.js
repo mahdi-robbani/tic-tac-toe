@@ -2,17 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-// User a function instead of extending React.Component since we only 
-// need to render a button and nothing else
-// function Square(props){
-//   return (
-//     <button className="square" onClick={props.onClick}>
-//       {props.value}
-//     </button>
-//   );// onClick={() => this.props.onClick() } becomes onClick={props.onClick}
-// }
-
-
 class Square extends React.Component {
 
     render() {
@@ -27,6 +16,16 @@ class Square extends React.Component {
       );
     }
   }
+
+// User a function instead of extending React.Component since we only 
+// need to render a button and nothing else
+// function Square(props){
+//   return (
+//     <button className="square" onClick={props.onClick}>
+//       {props.value}
+//     </button>
+//   );// onClick={() => this.props.onClick() } becomes onClick={props.onClick}
+// }
 
   class Board extends React.Component {
 
@@ -73,7 +72,6 @@ class Square extends React.Component {
       );
     }
   }
-
   
   class Game extends React.Component {
     constructor(props) {
@@ -118,7 +116,7 @@ class Square extends React.Component {
       });
     }
 
-    sortMoves(){
+    toggleOrder(){
       this.setState({
         ascending: !this.state.ascending,
       })
@@ -161,11 +159,6 @@ class Square extends React.Component {
         status = 'Next player:' + (this.state.x ? 'X' : 'O');
       }
 
-      // console.log("STEP:" + this.state.stepNumber)
-      // for (let i=0; i<history.length;i++){
-      //   console.log("MOVE:" + history[i].move)
-      // }
-
       return (
         <div className="game">
           <div className="game-board">
@@ -178,7 +171,7 @@ class Square extends React.Component {
           <div className="game-info">
             <div>{ status }</div>
             <div>
-            <button onClick={() => this.sortMoves()}>Sort moves</button>
+            <button onClick={() => this.toggleOrder()}>Toggle order</button>
             </div>
             <ul>{ moves }</ul>
           </div>
@@ -187,21 +180,6 @@ class Square extends React.Component {
     }
   }
 
-// TO-DO:
-// 1. Display the location for each move in the format (col, row) in the move history list. (DONE)
-// 2. Bold the currently selected item in the move list. (NOT SURE)
-// 3. Rewrite Board to use two loops to make the squares instead of hardcoding them.
-// 4. Add a toggle button that lets you sort the moves in either ascending or descending order.
-// 5. When someone wins, highlight the three squares that caused the win.
-// 6. When no one wins, display a message about the result being a draw.
-// // The most basic thingyou can render
-// class Game extends React.Component{
-//     render(){
-//         return (
-//             <p>"Hello"</p>
-//         );
-//     }
-// }
   // ========================================
   
   ReactDOM.render(
