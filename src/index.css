@@ -44,6 +44,10 @@ body {
   .square:focus {
     outline: none;
   }
+
+  .btn.bold {
+    font-weight: bolder;
+}
   
   .kbd-navigation .square:focus {
     background: #ddd;

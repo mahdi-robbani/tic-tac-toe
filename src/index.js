@@ -135,15 +135,19 @@ class Square extends React.Component {
       if (!this.state.ascending){
         history = history.reverse()
       }
-      let moves = history.map((step) => {
+      
+      let moves = history.map((step, index) => {
         // tile poisiton (i, j)
         const pos = [Math.floor(step.lastClicked/3), step.lastClicked % 3]
         // If no moves go to game start
         const desc = step.move ? `Go to move #${step.move} (${pos})`: 'Go to game start';
+        // if the current step of the game is the same as the step number of a button
+        // change its class to the bold class
+        const bold = this.state.stepNumber === step.move ? 'btn bold' : ''
         // all list elements in react need a key
         return (
           <li key={step.move}>
-            <button onClick={() => this.jumpTo(step.move)}>{desc}</button>
+            <button className={bold} onClick={() => this.jumpTo(step.move)}>{desc}</button>
           </li>
         );
       });
@@ -156,6 +160,11 @@ class Square extends React.Component {
       } else {
         status = 'Next player:' + (this.state.x ? 'X' : 'O');
       }
+
+      // console.log("STEP:" + this.state.stepNumber)
+      // for (let i=0; i<history.length;i++){
+      //   console.log("MOVE:" + history[i].move)
+      // }
 
       return (
         <div className="game">
