@@ -141,7 +141,7 @@ class Square extends React.Component {
         const desc = step.move ? `Go to move #${step.move} (${pos})`: 'Go to game start';
         // if the current step of the game is the same as the step number of a button
         // change its class to the bold class
-        const bold = this.state.stepNumber === step.move ? 'btn bold' : ''
+        const bold = this.state.stepNumber === step.move ? 'btn bold' : 'btn'
         // all list elements in react need a key
         return (
           <li key={step.move}>
@@ -156,7 +156,7 @@ class Square extends React.Component {
       } else if (!current.squares.includes(null)){
         status = "Draw!"
       } else {
-        status = 'Next player:' + (this.state.x ? 'X' : 'O');
+        status = 'Next player: ' + (this.state.x ? 'X' : 'O');
       }
 
       return (
@@ -171,7 +171,7 @@ class Square extends React.Component {
           <div className="game-info">
             <div>{ status }</div>
             <div>
-            <button onClick={() => this.toggleOrder()}>Toggle order</button>
+            <button className="btn toggle" onClick={() => this.toggleOrder()}>Toggle order</button>
             </div>
             <ul>{ moves }</ul>
           </div>

@@ -1,6 +1,10 @@
 body {
-    font: 14px "Century Gothic", Futura, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
     margin: 20px;
+    background-color: #282c34;
+    color: #fff;
   }
   
   ol, ul {
@@ -12,6 +16,11 @@ body {
     padding-bottom: 5px;
   }
 
+  .game {
+    justify-content: center;
+    top: 50%;
+    transform: translate(0, 50%);
+  }
   .board-row:after {
     clear: both;
     content: "";
@@ -23,31 +32,50 @@ body {
   }
   
   .square {
-    background: #fff;
-    border: 1px solid #999;
+    background: #282c34;
+    border: 2px solid #61dafb;
+    color: #fff;
     float: left;
-    font-size: 24px;
+    font-size: 75px;
     font-weight: bold;
     line-height: 34px;
-    height: 34px;
+    height: 100px;
+    width: 100px;
     margin-right: -1px;
     margin-top: -1px;
     padding: 0;
     text-align: center;
-    width: 34px;
+
   }
 
   .square.win {
-    border: 3px solid rgb(21, 138, 56);
+    border: 10px solid rgb(21, 138, 56);
   }
   
   .square:focus {
     outline: none;
   }
 
+  .btn {
+    color: #282c34;
+    background-color: #61dafb;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    border-radius: 5px;
+    border-color: #000;
+  }
+
+  .btn.toggle {
+    font-weight: bolder;
+    margin-top: 10px;
+  }
+
   .btn.bold {
     font-weight: bolder;
 }
+
+
   
   .kbd-navigation .square:focus {
     background: #ddd;
