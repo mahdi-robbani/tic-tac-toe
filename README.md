@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# Sudoku.js
 
+This app allows the user to play a game of sudoku and to automatically solve the board with the backtracking algorithm.
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
 
 ## Available Scripts
 
